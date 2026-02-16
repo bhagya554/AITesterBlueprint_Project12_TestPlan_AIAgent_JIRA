@@ -2,11 +2,9 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "public",
+  "framework": null,
+  "installCommand": "cd frontend && npm install",
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.py"
-    },
     {
       "handle": "filesystem"
     },
@@ -14,8 +12,5 @@
       "src": "/(.*)",
       "dest": "/public/index.html"
     }
-  ],
-  "env": {
-    "PYTHONPATH": "."
-  }
+  ]
 }

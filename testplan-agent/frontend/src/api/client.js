@@ -1,6 +1,10 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
+// Production backend URL - hardcoded for reliability
+const PROD_API_URL = 'https://testplan-agent-api.onrender.com/api'
+
+// Use environment variable if available, otherwise fallback to production URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || PROD_API_URL
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -18,7 +22,7 @@ export const jiraApi = {
 // Generator API
 export const generatorApi = {
   generateStream: (data) => {
-    return fetch('/api/generate/stream', {
+    return fetch(`${API_BASE_URL}/generate/stream`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),

@@ -2,8 +2,6 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "public",
-  "framework": null,
-  "installCommand": "cd frontend && npm install",
   "routes": [
     {
       "handle": "filesystem"

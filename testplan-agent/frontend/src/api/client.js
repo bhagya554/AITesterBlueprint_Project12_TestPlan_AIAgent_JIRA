@@ -1,10 +1,7 @@
 import axios from 'axios'
 
-// Production backend URL - hardcoded for reliability
-const PROD_API_URL = 'https://testplan-agent-api.onrender.com/api'
-
-// Use environment variable if available, otherwise fallback to production URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || PROD_API_URL
+// Hardcoded production backend URL - always use Render backend
+const API_BASE_URL = 'https://testplan-agent-api.onrender.com/api'
 
 const api = axios.create({
   baseURL: API_BASE_URL,

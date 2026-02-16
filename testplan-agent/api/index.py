@@ -6,9 +6,11 @@ import os
 import sys
 
 # Add backend to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'backend'))
+backend_path = os.path.join(os.path.dirname(__file__), '..', 'backend')
+sys.path.insert(0, backend_path)
 
-from backend.main import app
+# Import after adding to path
+from main import app
 from mangum import Mangum
 
 # Create handler for Vercel serverless

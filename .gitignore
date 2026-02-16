@@ -1,0 +1,29 @@
+# Node.js
+node_modules/
+dist/
+build/
+.env
+
+# Build outputs
+static/
+dist/
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv
+venv/
+ENV/
+*.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.pdf
+push_out.txt
+push_error.txt
+temp_out.txt
+*.log

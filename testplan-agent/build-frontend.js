@@ -44,21 +44,49 @@ try {
   process.exit(1);
 }
 
-// Copy Python API to .vercel/output/api for serverless
+// Copy backend files to api directory for Python function
 try {
-  const vercelOutputDir = path.join(__dirname, '.vercel', 'output', 'api');
-  if (!fs.existsSync(vercelOutputDir)) {
-    fs.mkdirSync(vercelOutputDir, { recursive: true });
+  const apiDir = path.join(__dirname, 'api');
+  const backendDir = path.join(__dirname, 'backend');
+  
+  // Copy config.py
+  fs.copyFileSync(
+    path.join(backendDir, 'config.py'),
+    path.join(apiDir, 'config.py')
+  );
+  
+  // Copy database.py
+  fs.copyFileSync(
+    path.join(backendDir, 'database.py'),
+    path.join(apiDir, 'database.py')
+  );
+  
+  // Copy main.py
+  fs.copyFileSync(
+    path.join(backendDir, 'main.py'),
+    path.join(apiDir, 'main.py')
+  );
+  
+  // Copy routers
+  const routersSrcDir = path.join(backendDir, 'routers');
+  const routersDestDir = path.join(apiDir, 'routers');
+  if (!fs.existsSync(routersDestDir)) {
+    fs.mkdirSync(routersDestDir, { recursive: true });
   }
+  fs.cpSync(routersSrcDir, routersDestDir, { recursive: true });
   
-  // Copy api directory contents
-  const apiSrcDir = path.join(__dirname, 'api');
-  fs.cpSync(apiSrcDir, vercelOutputDir, { recursive: true });
+  // Copy services
+  const servicesSrcDir = path.join(backendDir, 'services');
+  const servicesDestDir = path.join(apiDir, 'services');
+  if (!fs.existsSync(servicesDestDir)) {
+    fs.mkdirSync(servicesDestDir, { recursive: true });
+  }
+  fs.cpSync(servicesSrcDir, servicesDestDir, { recursive: true });
   
-  console.log('✅ API files prepared');
+  console.log('✅ Backend files copied to api/');
 } catch (error) {
-  console.error('❌ API preparation failed:', error);
-  // Non-critical, Vercel will handle this
+  console.error('❌ Backend copy failed:', error);
+  // Continue anyway - might already exist
 }
 
 console.log('✅ Build complete!');

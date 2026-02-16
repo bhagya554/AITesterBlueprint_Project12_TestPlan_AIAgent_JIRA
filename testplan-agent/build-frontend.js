@@ -2,13 +2,17 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-console.log('🔨 Building frontend for Vercel...');
+console.log('🔨 Building for Vercel...');
 
 // Build frontend
 try {
-  execSync('cd frontend && npm install && npm run build', { stdio: 'inherit' });
+  console.log('📦 Installing frontend dependencies...');
+  execSync('cd frontend && npm install', { stdio: 'inherit' });
+  
+  console.log('🏗️  Building frontend...');
+  execSync('cd frontend && npm run build', { stdio: 'inherit' });
 } catch (error) {
-  console.error('❌ Build failed:', error);
+  console.error('❌ Frontend build failed:', error);
   process.exit(1);
 }
 
@@ -34,8 +38,27 @@ try {
     }
   }
   
-  console.log('✅ Frontend built and copied to public/');
+  console.log('✅ Frontend files copied to public/');
 } catch (error) {
   console.error('❌ Copy failed:', error);
   process.exit(1);
 }
+
+// Copy Python API to .vercel/output/api for serverless
+try {
+  const vercelOutputDir = path.join(__dirname, '.vercel', 'output', 'api');
+  if (!fs.existsSync(vercelOutputDir)) {
+    fs.mkdirSync(vercelOutputDir, { recursive: true });
+  }
+  
+  // Copy api directory contents
+  const apiSrcDir = path.join(__dirname, 'api');
+  fs.cpSync(apiSrcDir, vercelOutputDir, { recursive: true });
+  
+  console.log('✅ API files prepared');
+} catch (error) {
+  console.error('❌ API preparation failed:', error);
+  // Non-critical, Vercel will handle this
+}
+
+console.log('✅ Build complete!');

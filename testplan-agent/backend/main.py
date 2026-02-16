@@ -21,6 +21,8 @@ ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:5173",
     "http://127.0.0.1:3000",
+    "https://testplan-agent.vercel.app",
+    "https://testplan-agent-eybzs25u6-bhagyas-projects-0e803e18.vercel.app",
 ]
 
 # Add VERCEL_URL if available (for preview deployments)
@@ -31,8 +33,8 @@ if vercel_url:
 # Allow any vercel.app domain in production
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS if not os.environ.get('VERCEL_ENV') else ["*"],
-    allow_credentials=True if not os.environ.get('VERCEL_ENV') else False,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"],

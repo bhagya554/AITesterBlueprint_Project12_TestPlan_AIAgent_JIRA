@@ -66,7 +66,8 @@ function Generator() {
     setStatus('Connecting...')
     
     try {
-      const response = await fetch('/api/generate/stream', {
+      const API_BASE_URL = 'https://testplan-agent-api.onrender.com/api'
+      const response = await fetch(`${API_BASE_URL}/generate/stream`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

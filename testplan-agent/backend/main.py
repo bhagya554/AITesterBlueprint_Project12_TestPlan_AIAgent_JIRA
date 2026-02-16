@@ -56,6 +56,17 @@ if os.path.exists(static_dir) and os.environ.get("DEV_MODE") != "true":
         return {"detail": "Not Found"}
 
 
+# Vercel serverless handler
+from fastapi.responses import JSONResponse
+from mangum import Mangum
+
+# Create handler for AWS Lambda / Vercel
+try:
+    handler = Mangum(app, lifespan="off")
+except ImportError:
+    # Mangum not installed, skip for local dev
+    handler = None
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

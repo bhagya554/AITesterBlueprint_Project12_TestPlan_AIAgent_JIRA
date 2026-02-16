@@ -1,13 +1,24 @@
 """Database configuration and models for TestPlan Agent."""
+import os
 from datetime import datetime
 from typing import List, Optional
 from sqlalchemy import create_engine, String, Text, DateTime, Integer
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker, Session
 from config import settings
 
+# Detect if running on Vercel serverless
+IS_VERCEL = os.environ.get('VERCEL') == '1' or os.environ.get('VERCEL_ENV') is not None
+
 # Create database engine
-DATABASE_URL = "sqlite:///./testplan_agent.db"
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+if IS_VERCEL:
+    # Use in-memory SQLite for serverless (data persists only during request)
+    DATABASE_URL = "sqlite:///:memory:"
+    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+else:
+    # Use file-based SQLite for local development
+    DATABASE_URL = "sqlite:///./testplan_agent.db"
+    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 

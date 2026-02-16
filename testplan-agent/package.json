@@ -1,0 +1,9 @@
+{
+  "name": "testplan-agent-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node build-frontend.js",
+    "vercel-build": "node build-frontend.js"
+  }
+}
